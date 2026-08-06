@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nobean.com · Domain listing</title>
+<style>
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  body{
+    background:#0A0A0B;
+    color:#E8E8E2;
+    font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    position:relative;
+  }
+  #space{
+    position:fixed; top:0; right:0; bottom:0; left:0; width:100%; height:100%; z-index:0; display:block;
+    background:radial-gradient(ellipse 80% 60% at 50% 0%, #0F1613 0%, #0A0A0B 70%);
+  }
+  .page{ position:relative; z-index:1; }
+  @media (prefers-reduced-motion: reduce){
+    #space{ display:none; }
+  }
+  ::selection{ background:#6EF2A8; color:#0A0A0B; }
+  .wrap{ max-width:760px; margin:0 auto; padding:0 28px; }
+  .mono{ font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Courier New', monospace; }
+  .label{
+    font-family:ui-monospace, 'SF Mono', 'Cascadia Code', 'Courier New', monospace;
+    font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:#6EF2A8; font-weight:600;
+  }
+  .dim{ color:#6E6E68; }
+
+  /* crosshair specimen marker */
+  .tag{
+    display:inline-flex; align-items:center; gap:6px;
+    border:1px solid #2A2A28; padding:5px 10px; border-radius:2px;
+  }
+  .tag::before{ content:'+'; color:#6EF2A8; font-weight:700; }
+
+  header{ border-bottom:1px solid #1C1C1A; padding:22px 0; }
+  header .wrap{ display:flex; justify-content:space-between; align-items:center; }
+  .brand{ font-weight:700; font-size:16px; letter-spacing:-0.3px; display:flex; align-items:center; gap:8px; }
+  .brand .dotmark{ width:8px; height:8px; background:#6EF2A8; border-radius:50%; box-shadow:0 0 12px #6EF2A8; }
+  .status{ font-family:ui-monospace,monospace; font-size:10.5px; letter-spacing:0.1em; text-transform:uppercase; color:#6EF2A8; border:1px solid #1C3A2A; background:#0E1A13; padding:6px 12px; border-radius:2px; }
+
+  .hero{ padding:64px 0 48px; position:relative; }
+  .hero::before{
+    content:''; position:absolute; top:0; left:28px; right:28px; height:100%;
+    background-image:
+      linear-gradient(#151513 1px, transparent 1px),
+      linear-gradient(90deg, #151513 1px, transparent 1px);
+    background-size:40px 40px;
+    opacity:0.5; pointer-events:none; z-index:0;
+    mask-image:linear-gradient(to bottom, black, transparent 85%);
+  }
+  .hero .wrap{ position:relative; z-index:1; }
+
+  .spec-id{ margin-bottom:28px; }
+  h1{
+    font-weight:700; font-size:clamp(40px,8vw,76px); line-height:0.98; letter-spacing:-2.5px;
+    margin-bottom:10px; color:#F4F4F0;
+  }
+  h1 .cursor{ color:#6EF2A8; }
+  .domain-meta{ font-family:ui-monospace,monospace; font-size:13px; color:#6E6E68; margin-bottom:28px; letter-spacing:0.02em; }
+  .domain-meta span{ color:#9A9A92; }
+  .hero-desc{ font-size:18px; line-height:1.6; max-width:540px; margin-bottom:40px; color:#B8B8B0; font-weight:400; }
+
+  .price-panel{
+    border:1px solid #1C1C1A; border-radius:4px; padding:28px; position:relative;
+    background:linear-gradient(180deg, rgba(110,242,168,0.03), transparent);
+  }
+  .corner{ position:absolute; width:10px; height:10px; border-color:#3A3A36; }
+  .corner.tl{ top:-1px; left:-1px; border-top:1px solid #6EF2A8; border-left:1px solid #6EF2A8; }
+  .corner.tr{ top:-1px; right:-1px; border-top:1px solid #6EF2A8; border-right:1px solid #6EF2A8; }
+  .corner.bl{ bottom:-1px; left:-1px; border-bottom:1px solid #6EF2A8; border-left:1px solid #6EF2A8; }
+  .corner.br{ bottom:-1px; right:-1px; border-bottom:1px solid #6EF2A8; border-right:1px solid #6EF2A8; }
+
+  .price-row{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
+  .price{ font-weight:700; font-size:44px; color:#F4F4F0; letter-spacing:-1px; }
+  .price .cur{ color:#6EF2A8; font-size:26px; margin-right:2px; }
+  .btn{
+    background:#6EF2A8; color:#0A0A0B; border:none; padding:15px 26px; font-size:14.5px;
+    font-weight:700; cursor:pointer; border-radius:3px; font-family:inherit;
+  }
+  .btn:hover{ background:#8DFFBE; }
+  .btn-ghost{
+    background:transparent; border:1px solid #2A2A28; color:#E8E8E2; padding:13px 22px;
+    font-size:13.5px; font-weight:600; cursor:pointer; border-radius:3px; margin-left:8px; font-family:inherit;
+  }
+  .btn-ghost:hover{ border-color:#6EF2A8; }
+  #status-msg{ margin-top:16px; font-size:13.5px; font-weight:600; color:#6EF2A8; font-family:ui-monospace,monospace; }
+
+  .section{ padding:56px 0; border-bottom:1px solid #1C1C1A; }
+  .section-num{ margin-bottom:18px; }
+  .section-title{ font-weight:700; font-size:clamp(24px,3.2vw,32px); max-width:560px; line-height:1.25; margin-bottom:16px; color:#F4F4F0; letter-spacing:-0.5px; }
+  .section-desc{ font-size:15.5px; color:#9A9A92; max-width:500px; line-height:1.65; margin-bottom:36px; }
+
+  .case-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:1px; background:#1C1C1A; border:1px solid #1C1C1A; }
+  .case-card{ background:#0F0F0E; padding:24px 20px; }
+  .case-card .idx{ font-family:ui-monospace,monospace; font-size:11px; color:#6EF2A8; margin-bottom:14px; }
+  .case-card h4{ font-weight:700; font-size:17px; margin-bottom:9px; color:#F4F4F0; }
+  .case-card p{ font-size:13px; color:#8A8A82; line-height:1.55; }
+
+  .spec-table{ width:100%; border-collapse:collapse; }
+  .spec-table tr{ border-bottom:1px solid #1C1C1A; }
+  .spec-table tr:last-child{ border-bottom:none; }
+  .spec-table td{ padding:15px 0; font-size:14px; }
+  .spec-table td:first-child{ color:#6E6E68; font-family:ui-monospace,monospace; font-size:11px; text-transform:uppercase; letter-spacing:0.06em; width:40%; }
+  .spec-table td:last-child{ font-weight:500; color:#DADAD4; }
+
+  .faq-item{ padding:20px 0; border-bottom:1px solid #1C1C1A; }
+  .faq-item:last-child{ border-bottom:none; }
+  .faq-item h4{ font-weight:700; font-size:15.5px; margin-bottom:8px; color:#F4F4F0; }
+  .faq-item p{ font-size:13.5px; color:#9A9A92; line-height:1.6; }
+
+  .final{ padding:76px 0; text-align:center; }
+  .final h2{ font-weight:700; font-size:clamp(28px,4.5vw,40px); letter-spacing:-1px; margin-bottom:14px; color:#F4F4F0; }
+  .final p{ color:#8A8A82; max-width:440px; margin:0 auto 30px; font-size:15px; line-height:1.6; }
+
+  footer{ padding:26px 0; text-align:center; }
+  footer p{ font-size:11px; color:#54544E; font-family:ui-monospace,monospace; letter-spacing:0.02em; }
+
+  @media(max-width:640px){
+    .price-row{ flex-direction:column; align-items:flex-start; }
+    .btn-ghost{ margin-left:0; margin-top:8px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas id="space"></canvas>
+<div class="page">
+
+<header>
+  <div class="wrap">
+    <span class="brand"><span class="dotmark"></span>nobean<span class="dim" style="font-weight:400;">.com</span></span>
+    <span class="status">● Available</span>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="spec-id"><span class="tag label">Listing / 001</span></div>
+    <h1>nobean<span class="cursor">.</span>com</h1>
+    <div class="domain-meta">6 CHARS &nbsp;·&nbsp; <span>EXACT-MATCH</span> &nbsp;·&nbsp; <span>UNCLAIMED CATEGORY</span></div>
+    <p class="hero-desc">Mushroom coffee, chicory, barley, dandelion, fig: a real, currently exploding category (Coca-Cola and Asahi both launched beanless coffee in Japan this year, Suntory has multi-million dollar money in Atomo Coffee), and its exact-match .com is still sitting unclaimed. Every week someone builds a brand in this space with a worse name than the one available right here.</p>
+
+    <div class="price-panel">
+      <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+      <div class="price-row">
+        <div>
+          <div class="label" style="margin-bottom:8px;">Asking price</div>
+          <div class="price"><span class="cur">$</span>3,999</div>
+          <div class="dim" style="font-size:12px; margin-top:6px; font-family:ui-monospace,monospace;">Namecheap/Estibot appraisal: $2,300, set before Coca-Cola, Asahi, and Suntory entered this category in 2026</div>
+        </div>
+        <div>
+          <button class="btn" onclick="buy()">Claim nobean.com</button>
+          <button class="btn-ghost" onclick="offer()">Make an offer</button>
+        </div>
+      </div>
+      <div id="status-msg"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-num"><span class="tag label">00 / Why now</span></div>
+    <h2 class="section-title">This isn't a hypothetical trend. It's happening this year.</h2>
+    <p class="section-desc">Coca-Cola launched a beanless coffee product in Japan through its Georgia brand in 2026. Asahi did the same with "Future LATTE." Suntory has put multi-million dollar money into Atomo Coffee. Minus Coffee, Voyage Foods, and Northern Wonder are all funded and selling. This isn't an obscure niche waiting to happen, it's a category that major beverage companies are actively entering right now, and the exact-match name for it is still sitting here, unclaimed.</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-num"><span class="tag label">01 / Category</span></div>
+    <h2 class="section-title">"No bean" isn't invented. It's already how people describe what they're drinking.</h2>
+    <p class="section-desc">Mushroom coffee, chicory blends, grain "coffee," dandelion root: each has its own following, but no single name sits over all of them the way "no bean" does. Own the category name, and every brand that launches under a weaker one ends up doing your positioning work for you.</p>
+    <table class="spec-table">
+      <tr><td>Category</td><td>Bean-free coffee alternatives</td></tr>
+      <tr><td>Includes</td><td>Mushroom, chicory root, roasted barley, dandelion root, fig</td></tr>
+      <tr><td>Search trend</td><td>Rising, driven by functional mushroom and low-caffeine drinks as an active wellness category</td></tr>
+      <tr><td>Exact-match owner</td><td>None, currently</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-num"><span class="tag label">02 / Directions</span></div>
+    <h2 class="section-title">Four ways to turn this into revenue, not just a name.</h2>
+    <p class="section-desc">The realistic buyer isn't a domain investor, it's a founder or an existing brand who needs this exact name: a coffee-alternative or functional-beverage company, a food-innovation startup working in allergen-friendly or alternative-protein products, or a wellness-lifestyle brand. Any of them is buying more than six letters, they're buying a name that tells their customer what they sell before the founder says another word.</p>
+    <div class="case-grid">
+      <div class="case-card"><div class="idx">A /</div><h4>Content &amp; affiliate hub</h4><p>Reviews and buying guides for the whole category, the classic domain-to-media play.</p></div>
+      <div class="case-card"><div class="idx">B /</div><h4>D2C product brand</h4><p>A house blend or subscription box built around one of these ingredients, sold direct.</p></div>
+      <div class="case-card"><div class="idx">C /</div><h4>Marketplace / directory</h4><p>A curated storefront aggregating existing bean-free brands under one destination.</p></div>
+      <div class="case-card"><div class="idx">D /</div><h4>Newsletter / community</h4><p>A lightweight publication for people cutting caffeine or avoiding bean products.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <div class="section-num"><span class="tag label">03 / Scope</span></div>
+    <h2 class="section-title">Just the name. Priced like it.</h2>
+    <p class="section-desc">No bundled site, no included branding. This listing is the domain only, transferred clean.</p>
+    <table class="spec-table">
+      <tr><td>Included</td><td>The domain nobean.com, nothing else</td></tr>
+      <tr><td>Status</td><td>Active, clean, no disputes or liens</td></tr>
+      <tr><td>Transfer</td><td>Registrar push or Escrow.com, buyer's choice</td></tr>
+      <tr><td>Independent appraisal</td><td>$2,300 (Namecheap/Estibot)</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap" style="max-width:600px;">
+    <div class="section-num"><span class="tag label">04 / Questions</span></div>
+    <div class="faq-item"><h4>Is this decaf coffee?</h4><p>No. Decaf still contains coffee bean, just with caffeine removed. Everything here contains zero bean, coffee or otherwise.</p></div>
+    <div class="faq-item"><h4>Does the sale include a site or logo?</h4><p>No, domain only. What you build on it is up to you.</p></div>
+    <div class="faq-item"><h4>Is the price negotiable?</h4><p>Reasonable offers welcome, priced to be an easy yes, not an opening bid.</p></div>
+    <div class="faq-item"><h4>Any trademark risk?</h4><p>"No bean" is a generic, descriptive phrase with no registered trademark on the exact term "NoBean." Note: a functional-beverage company called "Neobean" operates in this same category with similar positioning language, close enough that buyers should form their own brand identity clearly distinct from it rather than lean on the similarity.</p></div>
+  </div>
+</section>
+
+<section class="final">
+  <div class="wrap">
+    <h2>The category's real. The name's available. That combination doesn't last.</h2>
+    <p>$3,999 buys the exact-match .com outright. No bidding, no waiting on a marketplace auction, no negotiating with a squatter later once someone else has already made it valuable.</p>
+    <button class="btn" onclick="buy()">Claim nobean.com · $3,999</button>
+  </div>
+</section>
+
+<footer><p>nobean.com: domain listing, offered for sale by its current owner.</p></footer>
+
+</div>
+
+<script>
+// ---- Rising steam + drifting spores: evokes a warm bean-free brew, not outer space ----
+(function(){
+  const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const canvas = document.getElementById('space');
+  if (!canvas || reduceMotion) return;
+  const ctx = canvas.getContext('2d');
+  let w, h;
+
+  function viewportW(){ return window.innerWidth || 1280; }
+  function viewportH(){ return window.innerHeight || 900; }
+  function resize(){ w = canvas.width = viewportW(); h = canvas.height = viewportH(); }
+
+  // Steam tendrils: soft vertical wisps drifting upward, like rising off a warm cup.
+  const STEAM_COUNT = 9;
+  let steams = [];
+  function makeSteam(i){
+    return {
+      baseX: (i + 0.5) / STEAM_COUNT * w + (Math.random()-0.5)*60,
+      y: Math.random() * h,
+      speed: 0.18 + Math.random()*0.14,
+      wobble: 30 + Math.random()*40,
+      wobbleSpeed: 0.0006 + Math.random()*0.0006,
+      phase: Math.random()*Math.PI*2,
+      width: 46 + Math.random()*70,
+      opacity: 0.05 + Math.random()*0.06
+    };
+  }
+
+  // Spores/motes: small soft particles drifting slowly, like dandelion seed or mushroom spore.
+  const MOTE_COUNT = 70;
+  let motes = [];
+  function makeMote(){
+    return {
+      x: Math.random()*w,
+      y: Math.random()*h,
+      r: 0.6 + Math.random()*1.6,
+      vy: -(0.05 + Math.random()*0.12),
+      vx: (Math.random()-0.5)*0.06,
+      phase: Math.random()*Math.PI*2,
+      driftSpeed: 0.0004 + Math.random()*0.0006,
+      warm: Math.random() > 0.5
+    };
+  }
+
+  function init(){
+    resize();
+    steams = []; for (let i=0;i<STEAM_COUNT;i++) steams.push(makeSteam(i));
+    motes = []; for (let i=0;i<MOTE_COUNT;i++) motes.push(makeMote());
+  }
+
+  function step(){
+    ctx.clearRect(0,0,w,h);
+    const t = performance.now();
+
+    // Steam wisps
+    for (const s of steams){
+      s.y -= s.speed;
+      if (s.y < -200) s.y = h + 100;
+      const wob = Math.sin(t*s.wobbleSpeed + s.phase) * s.wobble;
+      const x = s.baseX + wob;
+      const grad = ctx.createLinearGradient(x, s.y - 160, x, s.y + 60);
+      grad.addColorStop(0, `rgba(110,242,168,0)`);
+      grad.addColorStop(0.5, `rgba(196,232,210,${s.opacity})`);
+      grad.addColorStop(1, `rgba(110,242,168,0)`);
+      ctx.fillStyle = grad;
+      ctx.beginPath();
+      ctx.ellipse(x, s.y, s.width*0.5, 130, 0, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    // Drifting spores/motes
+    for (const m of motes){
+      m.y += m.vy;
+      m.x += m.vx + Math.sin(t*m.driftSpeed + m.phase) * 0.08;
+      if (m.y < -20){ m.y = h + 20; m.x = Math.random()*w; }
+      const tw = 0.5 + 0.5*Math.sin(t*0.0007 + m.phase);
+      ctx.fillStyle = m.warm
+        ? `rgba(232,214,168,${0.25*tw})`
+        : `rgba(110,242,168,${0.3*tw})`;
+      ctx.beginPath();
+      ctx.arc(m.x, m.y, m.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  window.addEventListener('resize', resize);
+  init();
+  requestAnimationFrame(step);
+})();
+</script>
+
+<script>
+  // Update this to the exact Afternic/GoDaddy listing URL once the listing is live.
+  const LISTING_URL = 'https://www.afternic.com/domain/nobean.com';
+
+  function logInterest(type){
+    try {
+      var p = window.storage.set('nobean:sale_lead:' + Date.now(), JSON.stringify({type:type, at:new Date().toISOString()}), true);
+      if (p && p.catch) p.catch(function(e){});
+    } catch(e) {}
+  }
+  function buy(){
+    logInterest('buy_click');
+    document.getElementById('status-msg').textContent = '> Redirecting to the listing...';
+    window.open(LISTING_URL, '_blank', 'noopener');
+  }
+  function offer(){
+    logInterest('offer_click');
+    document.getElementById('status-msg').textContent = '> Redirecting to the listing to submit your offer...';
+    window.open(LISTING_URL, '_blank', 'noopener');
+  }
+</script>
+
+</body>
+</html>
